@@ -1,0 +1,9 @@
+Logs/
+apps/__pycache__/
+modules/__pycache__/
+*.csv
+*.png
+*.ipynb
+*.drawio
+*.pdf
+*.pyc
