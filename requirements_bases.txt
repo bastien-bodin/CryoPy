@@ -1,0 +1,6 @@
+numpy==1.23.1
+cython==0.29.32
+mako==1.2.3
+cyarray==1.1
+compyle==1.0
+pytest==7.2.0
