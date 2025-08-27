@@ -43,15 +43,15 @@ CryoPy/
     - `TimeStep.py`: Adaptive time step management.
 
 # Prerequisites
-- Python 3.8
+- Python 3.8.10
 - PySPH (and other scientific dependencies: numpy, matplotlib, etc.)
 
-For more information about the installation procedure, please see the INSTALLATION.md
+For more information about the installation procedure, please see the [intallation instructions](./INSTALLATION.md).
 
 # Example case
 An example is given in the project. It simulates a dam break in 2D. To launch it, just run:
 ```bash
-python main_db.py
+(env_PySPH) $ python main_db.py
 ```
 You can modify the physical and geometrical parameters directly from the `main_db.py` file.
 
