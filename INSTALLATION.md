@@ -150,3 +150,12 @@ MPI_LINK = ['...']
 
 ### Installing pyZoltan
 To install pyZoltan, we must get the 1.0.1 version. To do so, we must obtain the archive onth [Github page](https://github.com/pypr/pyzoltan/tree/v1.0.1). If the the cluster is not on a Cray architecture, just run the `setup.py`.
+
+If not, you might have to modify the `setup.py` file with the following informations:
+- Replace compiler = ’gcc’ with compiler = ’cray’;
+- add an `elif compiler == 'cray'` statement and define the `link_args` and `compile_args` variables as defined in the `config.py` file
+
+# Installing PySPH (finally)
+Once everything is *hopefully* installed, you can install pysph. The compatible version is [1.0b1](https://github.com/pypr/pysph/tree/1.0b1)
+
+The procedure is quite similar to PyZoltan

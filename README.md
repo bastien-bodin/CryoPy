@@ -3,7 +3,6 @@
 
 This README is not finished yet
 What's next:
-- Installation markdown
 - Usage cases
 
 # Project Structure
