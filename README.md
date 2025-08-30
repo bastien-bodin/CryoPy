@@ -1,4 +1,4 @@
-# CryoPy
+# CryoPy: A Python Framework for Cryolava Simulation using SPH
 
 **CryoPy** is a Python-based numerical simulation toolkit for **fluid dynamics** and **heat transfer**, primarily using the **Smoothed Particle Hydrodynamics (SPH)** method. It is designed to model **cryolava scenarios**, including avalanches, fluidized snow, and ice/water mixtures.
 
@@ -36,10 +36,10 @@ CryoPy/
 - **Python 3.8.10**
 - **PySPH** (and scientific dependencies: `numpy`, `matplotlib`, etc.)
 
-### Installation Scripts
+### ⚙️ Installation Scripts
 To simplify setup, use one of the provided scripts:
 - `install_pysph.sh`: Local installation with parallel support.
-- `install_pysph_slurm_nocray.sh`: Installation on non-Cray clusters.
+- `install_pysph_slurm_nocray.sh`: Installation on non-Cray clusters with openMPI.
 - `install_pysph_slurm_cray_mpich.sh`: Installation on Cray clusters with MPICH.
 
 > ⚠️ **Note**
@@ -49,9 +49,10 @@ For detailed instructions, see **[INSTALLATION.md](./INSTALLATION.md)**.
 
 ---
 
-## 🚀 Example Usage
+## 🌊 Example Usage: 2D Dam-Break Flow Simulation
+An available example simulates the classical dam-break problem in 2D using the Smoothed Particle Hydrodynamics (SPH) method. A column of fluid is initially held behind a virtual dam. When the simulation starts, the dam is removed, and the fluid collapses under gravity, spreading downstream.
 
-An example **2D dam break simulation** is included. To run it:
+To run it, just run:
 ```bash
 (env_PySPH) $ python main_db.py
 ```
@@ -92,6 +93,19 @@ Feel free to extend or modify existing modules for your specific needs!
 
 ## 📝 Author
 **Bastien Bodin**
+
+## Cite
+```bibtex
+@software{cryopy,
+    title={CryoPy: A Python Framework for Cryolava Simulation using SPH},
+    author={Bastien Bodin},
+    year={2024},
+    url={https://github.com/username/CryoPy}
+}
+```
+
+## License
+[BSD-3](./LICENSE.txt)
 
 ## 🆘 Support
 For questions, bug reports, or feature requests, please:
