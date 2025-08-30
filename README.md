@@ -39,18 +39,18 @@ PySPH is a Python-based framework for Smoothed Particle Hydrodynamics (SPH). It 
 ```text
 CryoPy/
 │
-├── .gitignore                # Initial commit for CryoPy
-├── INSTALLATION.md           # Added references for PySPH and credits
-├── LICENSE.txt               # Added installation scripts and BSD-3 license
-├── README.md                 # Added references for PySPH and credits
+├── .gitignore
+├── INSTALLATION.md           # Detailed installation instructions
+├── LICENSE.txt               # License for the toolkit
+├── README.md                 # What you're reading
 │
-├── install_pysph.sh          # Added installation scripts and BSD-3 license
-├── install_pysph_slurm_cray_mpich.sh  # Added installation scripts and BSD-3 license
-├── install_pysph_slurm_nocray.sh      # Added installation scripts and BSD-3 license
+├── install_pysph.sh          # Small script for local installation and parallel support (openMPI)
+├── install_pysph_slurm_cray_mpich.sh  # Installation on Cray cluster with MPICH
+├── install_pysph_slurm_nocray.sh      # Installation on Slurm clusters with openMPI
 │
-├── main_db.py                # Initial commit for CryoPy
+├── main_db.py                # Dam Break example
 │
-├── requirements_bases.txt    # Creation of basic requirements.txt and first installation steps
+├── requirements_bases.txt    # Core dependencies for the toolkit to work in serial
 |
 ├── apps/                     # Simulation scenarios
 │   ├── DB2D.py               # 2D fluid simulation
