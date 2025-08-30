@@ -1,88 +1,99 @@
-# Presentation
-***CryoPy*** is a set of Python scripts for numerical simulation of **fluid dynamics** and **heat transfer**, primarily based on the **SPH** (Smoothed Particle Hydrodynamics) **method**. This project is organized to allow the modeling of various **cryolava scenarios**, based on the physics of avalanches, fluidized snow, and ice/water mixtures.
+# CryoPy
 
-This README is not finished yet
-What's next:
-- Usage cases
+**CryoPy** is a Python-based numerical simulation toolkit for **fluid dynamics** and **heat transfer**, primarily using the **Smoothed Particle Hydrodynamics (SPH)** method. It is designed to model **cryolava scenarios**, including avalanches, fluidized snow, and ice/water mixtures.
 
-# Project Structure
+---
+
+## 📂 Project Structure
 
 ```text
 CryoPy/
-│   .gitignore
-│   main_db.py
 │
-├── apps/
-│   ├── DB2D.py
-│   ├── DB2DFluidized.py
-│   ├── DB2DSnow.py
-│   ├── FissureInletAvalanche.py
-│   ├── FissureInletMix.py
-│   ├── FissureInletSnow.py
+├── .gitignore
+├── main_db.py                # Main script to launch simulations
+├── INSTALLATION.md           # Detailed installation instructions
 │
-└── modules/
-    ├── FluidDynamics.py
-    ├── Geometries.py
-    ├── HeatTransfer.py
-    ├── Integrators.py
-    └── TimeStep.py
+├── apps/                     # Simulation scenarios
+│   ├── DB2D.py               # 2D fluid simulation
+│   ├── DB2DFluidized.py      # 2D fluidized material simulation
+│   ├── DB2DSnow.py           # 2D snow simulation
+│   ├── FissureInletAvalanche.py  # Avalanche simulation through a fissure
+│   ├── FissureInletMix.py    # Mixture simulation through a fissure
+│   └── FissureInletSnow.py   # Snow simulation through a fissure
+│
+└── modules/                  # Core physics and geometry modules
+    ├── FluidDynamics.py      # Fluid dynamics equations and models
+    ├── Geometries.py         # Geometry generation (fissures, blocks, reservoirs)
+    ├── HeatTransfer.py       # Heat transfer models
+    ├── Integrators.py        # Time integrators
+    └── TimeStep.py           # Adaptive time step management
 ```
 
-# Folder Descriptions
+---
 
-- `main_db.py`: Main script to launch a simulation (e.g., Doom Mons with a reservoir).
-- `apps/`: Contains various simulation scenarios, each implemented as a class inheriting from `Application`.
-    - `DB2D.py`, `DB2DFluidized.py`, `DB2DSnow.py`: 2D simulations of fluids, fluidized materials, or snow.
-    - `FissureInletAvalanche.py`, `FissureInletMix.py`, `FissureInletSnow.py`: Simulations of flow through a fissure (avalanches, mixtures, snow).
-- `modules/`: Core modules for physics and geometry.
-    - `FluidDynamics.py`: Equations and models for fluid dynamics.
-    - `Geometries.py`: Geometry generation (fissures, blocks, reservoirs).
-    - `HeatTransfer.py`: Heat transfer models.
-    - `Integrators.py`: Time integrators for the simulation.
-    - `TimeStep.py`: Adaptive time step management.
+## 📦 Prerequisites
 
-# Prerequisites
-- Python 3.8.10
-- PySPH (and other scientific dependencies: numpy, matplotlib, etc.)
+- **Python 3.8.10**
+- **PySPH** (and scientific dependencies: `numpy`, `matplotlib`, etc.)
 
-For more information about the installation procedure, please see the [intallation instructions](./INSTALLATION.md).
+### Installation Scripts
+To simplify setup, use one of the provided scripts:
+- `install_pysph.sh`: Local installation with parallel support.
+- `install_pysph_slurm_nocray.sh`: Installation on non-Cray clusters.
+- `install_pysph_slurm_cray_mpich.sh`: Installation on Cray clusters with MPICH.
 
-# Example case
-An example is given in the project. It simulates a dam break in 2D. To launch it, just run:
+> ⚠️ **Note**
+> If installing **PySPH** on a cluster, ensure the correct **Python** and **MPI** modules are loaded.
+
+For detailed instructions, see **[INSTALLATION.md](./INSTALLATION.md)**.
+
+---
+
+## 🚀 Example Usage
+
+An example **2D dam break simulation** is included. To run it:
 ```bash
-(env_PySPH) $ python main_db.py
+(env_PySPH) $ python main_db.py
 ```
-You can modify the physical and geometrical parameters directly from the `main_db.py` file.
+You can customize physical and geometric parameters directly in `main_db.py`.
 
-# Personalized applications
+---
 
-To create a new scenario, add a file into the `apps/` repository and implement a class inheriting from `Application`. The basic structure is the following:
-```python
-class MyOwnApp(Application):
-    def intitialize(self):
-        # define init parameters
-        # ...
-    
-    def create_particles(self):
-        # create the particles based on the wanted geometry
-        # Some are available in modules/Geometries.py
-        # ...
-    
-    def create_equations(self):
-        # Use the equations defined in modules/FluidDynamics.py
-        #    or in modules/HeatTransfer.py
-        # The Time Step computation is also an equation to
-        #    include here.
-        # Some are available in modules/TimeSteps.py
-    
-    def create_solver(self):
-        # define which solver to use on which particle group
-        # Some integrators and integrator steps are located in
-        # modules/Integrators
-```
-Feel free to use the modules available in the `modules/` repository to define the equations, the geometries and the integrators. Don't hesitate to add your own equations for your own specific cases!
+## 🔧 Creating Custom Scenarios
 
+To add a new scenario:
+1. Create a file in the `apps/` directory.
+2. Implement a class inheriting from `Application`:
+   ```python
+   class MyOwnApp(Application):
+       def initialize(self):
+           # Define initial parameters
+           pass
 
-Author
-Bastien Bodin
+       def create_particles(self):
+           # Create particles using geometries from `modules/Geometries.py`
+           pass
 
+       def create_equations(self):
+           # Use equations from:
+           # - `modules/FluidDynamics.py` (fluid dynamics)
+           # - `modules/HeatTransfer.py` (heat transfer)
+           # - `modules/TimeSteps.py` (time step computation)
+           pass
+
+       def create_solver(self):
+           # Define solvers for particle groups
+           # Integrators are available in `modules/Integrators.py`
+           pass
+   ```
+Feel free to extend or modify existing modules for your specific needs!
+
+---
+
+## 📝 Author
+**Bastien Bodin**
+
+## 🆘 Support
+For questions, bug reports, or feature requests, please:
+- Open an issue on GitHub
+- Contact: [bastien.bodin@proton.me](mailto:bastien.bodin@proton.me)
