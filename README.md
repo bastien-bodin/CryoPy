@@ -1,6 +1,36 @@
 # CryoPy: A Python Framework for Cryolava Simulation using SPH
 
-**CryoPy** is a Python-based numerical simulation toolkit for **fluid dynamics** and **heat transfer**, primarily using the **Smoothed Particle Hydrodynamics (SPH)** method. It is designed to model **cryolava scenarios**, including avalanches, fluidized snow, and ice/water mixtures.
+**CryoPy** is a Python-based numerical simulation toolkit for **fluid dynamics** and **heat transfer**, primarily using the **Smoothed Particle Hydrodynamics (SPH)** method. This library make an intensive use of the [PySPH Library](https://pysph.readthedocs.io/en/main/index.html), licensed under the BSD 3-Clause License (See [PySPH License](https://github.com/pypr/pysph/blob/main/LICENSE.txt) for details). It is designed to model **cryolava scenarios**, including avalanches, fluidized snow, and ice/water mixtures.
+
+---
+
+## 📚 About PySPH
+We would like to thank the [PySPH Community](https://groups.google.com/g/pysph-users?pli=1) - without their contributions, this toolkit would not have been possible.
+PySPH is a Python-based framework for Smoothed Particle Hydrodynamics (SPH). It allows users to define complete SPH simulations using pure Python and generates high-performance code for execution on CPUs, GPUs, or distributed systems using MPI. 
+
+**Citation:** If you use PySPH in your work, please refer to the original authors:
+
+```bibtex
+@article{10.1145/3460773,
+    author = {Ramachandran, Prabhu and Bhosale, Aditya and Puri, Kunal and Negi, Pawan and Muta, Abhinav and Dinesh, A. and Menon, Dileep and Govind, Rahul and Sanka, Suraj and Sebastian, Amal S. and Sen, Ananyo and Kaushik, Rohan and Kumar, Anshuman and Kurapati, Vikas and Patil, Mrinalgouda and Tavker, Deep and Pandey, Pankaj and Kaushik, Chandrashekhar and Dutt, Arkopal and Agarwal, Arpit},
+    title = {PySPH: A Python-based Framework for Smoothed Particle Hydrodynamics},
+    year = {2021},
+    issue_date = {December 2021},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    volume = {47},
+    number = {4},
+    issn = {0098-3500},
+    url = {https://doi.org/10.1145/3460773},
+    doi = {10.1145/3460773},
+    abstract = {PySPH is an open-source, Python-based, framework for particle methods in general and Smoothed Particle Hydrodynamics (SPH) in particular. PySPH allows a user to define a complete SPH simulation using pure Python. High-performance code is generated from this high-level Python code and executed on either multiple cores, or on GPUs, seamlessly. It also supports distributed execution using MPI. PySPH supports a wide variety of SPH schemes and formulations. These include, incompressible and compressible fluid flow, elastic dynamics, rigid body dynamics, shallow water equations, and other problems. PySPH supports a variety of boundary conditions including mirror, periodic, solid wall, and inlet/outlet boundary conditions. The package is written to facilitate reuse and reproducibility. This article discusses the overall design of PySPH and demonstrates many of its features. Several example results are shown to demonstrate the range of features that PySPH provides.},
+    journal = {ACM Trans. Math. Softw.},
+    month = sep,
+    articleno = {34},
+    numpages = {38},
+    keywords = {PySPH, smoothed particle hydrodynamics, open source, Python, GPU, CPU}
+}
+```
 
 ---
 

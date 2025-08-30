@@ -1,161 +1,223 @@
-Installation procedure for PySPH Model
-------
-This document outlines the dependencies required to run the PySPH model, based on the [official PySPH installation guide](https://pysph.readthedocs.io/en/main/index.html). The following setup was tested on a Dell Precision 3561 running Ubuntu 20.04. We strongly recommend using a Linux-based OS for this installation.
+# PySPH Model Installation Guide
 
-> ⚠️ **Important**:
-> The installation process can be sensitive to package versions. To avoid compatibility issues, strictly follow the versions specified below and use a dedicated virtual environment.
+This guide provides step-by-step instructions for installing the PySPH model on a Linux-based system (tested on Ubuntu 20.04). To avoid compatibility issues, **strictly follow the specified versions** and use a dedicated virtual environment.
 
+---
 
-# Prerequisites
-These are the prerequisites we recommend as it was installed on thesespecific versions and generated no incompatibilities
-- Operating System: Linux (Ubuntu 20.04 or higher)
-- C/C++ compiler
-- Python Version: 3.8.10 [(Download here)](https://www.python.org/downloads/release/python-3810/)
-- Virtual Environment: Required to isolate dependencies
+## 📋 Prerequisites
 
+- **Operating System:** Linux (Ubuntu 20.04 or higher recommended)
+- **C/C++ Compiler:** Required for building dependencies
+- **Python Version:** 3.8.10 ([Download Python 3.8.10](https://www.python.org/downloads/release/python-3810/))
+- **Virtual Environment:** Required to isolate dependencies
 
-# Setting Up the Virtual Environment
-## Create the Virtual Environment
-We recommend creating a dedicated virtual environment named `env_PySPH` to avoid conflicts with other projects.
-1. Navigate to your preferred directory
+---
+
+## 🛠️ Setting Up the Virtual Environment
+
+### 1. Create the Virtual Environment
 ```bash
 cd /path/to/your/project
-```
-2. Create the virtual environment
-```bash
 python3.8 -m venv env_PySPH
 ```
-3. Activate the environment
+
+### 2. Activate the Environment
 ```bash
 source env_PySPH/bin/activate
 ```
->✅ **Best Practice**:
-> Always activate the environment before installing packages or running the model:
-> ```bash
-> source env_PySPH/bin/activate
-> ```
+> **✅ Best Practice:** Always activate the environment before installing packages or running the model.
 
-# Installing Dependencies
-## Core Dependencies
-Install the following packages in the specified order to minimize compatibility issues:
-- Numpy 1.23.1
-- Cython 0.29.32
-- Mako 1.2.3
-- Cyarray 1.1
-- compyle 0.8.1
-- pytest 7.2.0
+---
 
-All these packages are available in the [requirement_bases](./requirements_bases.txt) file.
-The installation can be done as follows:
+## 📦 Installing Core Dependencies
+
+Install the following packages **in the specified order** to minimize compatibility issues:
+
 ```bash
-$ pip install -r requirements_bases.txt
+pip install numpy==1.23.1 cython==0.29.32 mako==1.2.3 pytest==7.2.0
+pip install carray==1.1 --no-build-isolation
+pip install compyle==0.8.1 --no-build-isolation
 ```
 
-## Parallel simulations and MPI
-As the SPH method is suited for CFD problems, running simulations can become quite computationally intensive. Therefore, we recommend to use this model with the parallel installation.
-For that, a couple more dependencies are needed.
-- MPI, with libraries such as openMPI or MPICH
-- Zoltan, a library for dynamic load balancing
-- A lot more Python packages
+> **📄 Note:** These dependencies are also listed in the [`requirements_bases.txt`](./requirements_bases.txt) file.
 
-We develop the procedures in the following
+---
 
-### Installing the Zoltan library (local)
-On a local machine, we recommend using openMPI, as the installation procedure is easier. To do so, just run on a terminal:
+## ⚡ Parallel Simulations and MPI
+
+PySPH supports parallel simulations using MPI. Below are the installation steps for both **local machines** and **clusters**.
+
+### 🖥️ Local Installation (OpenMPI + Zoltan)
+
+#### 1. Install OpenMPI
 ```bash
-$ sudo apt-get install openmpi-bin libopenmpi-dev
+sudo apt-get install openmpi-bin libopenmpi-dev
 ```
-Then, to install Zoltan, just run:
+
+#### 2. Install Zoltan
 ```bash
-$ sudo apt-get install libtrilinos-zoltan-dev
+sudo apt-get install libtrilinos-zoltan-dev
 ```
-Then, you just need to set some variables in the `~/.bashrc` file
+
+#### 3. Set Environment Variables
+Add the following lines to your `~/.bashrc` file:
 ```bash
 export ZOLTAN_INCLUDE=/usr/include/trilinos
 export ZOLTAN_LIBRARY=/usr/lib/x86_64-linux-gnu
 export USE_TRILINOS=1
 ```
-> ✅ Don't forget to reload the `.bashrc` with:
-> ```bash
-> $ source ~/.bashrc
-> ```
-
-### Installing the Zoltan library on a cluster
-If you want more computational power, you would probably want this model to run on a supercomputer. As you probably won't have the sudo rights on this machine, the procedure is a bit different.
-1. Getting and extracting Zoltan 3.901:
+Reload the `.bashrc` file:
 ```bash
-$ wget https://github.com/sandialabs/Zoltan/archive/refs/tags/v3.901.tar.gz
-$ tar xvfz v3.901.tar.gz
+source ~/.bashrc
 ```
-A `Zoltan-3.901/` directory should have appeared.
 
-2. Configure a Zoltan directory
+---
+
+### 🏢 Cluster Installation (Zoltan from Source)
+
+#### 1. Download and Extract Zoltan
 ```bash
-$ mkdir Zoltan; cd Zoltan
-$ ../Zoltan-3.901/configure --with-cflags=fPIC --enable-mpi \
+wget https://github.com/sandialabs/Zoltan/archive/refs/tags/v3.901.tar.gz
+tar xvfz v3.901.tar.gz
+```
+
+#### 2. Configure Zoltan
+```bash
+mkdir Zoltan && cd Zoltan
+../Zoltan-3.901/configure --with-cflags=-fPIC --enable-mpi \
     --with-mpi=/path/to/mpi --prefix=/absolute/path/to/Zoltan
 ```
-> You can check for the location of the mpi library with `mpicc --showme` or `mpicc -show` depending on if you are using `openMPI` or `MPICH` respectively.
+> **🔍 Tip:** Find your MPI path using `mpicc --showme` (OpenMPI) or `mpicc -show` (MPICH).
 
-3. Build the Zoltan library
+#### 3. Build and Install Zoltan
 ```bash
-$ make everything
-$ make install
+make everything
+make install
 ```
-> A *lot* of warnings will appear, that's normal
-4. Set the environment variables
+> **⚠️ Note:** Warnings during compilation are normal.
+
+#### 4. Set Environment Variables
 ```bash
 export ZOLTAN_INCLUDE=/path/to/Zoltan/include
 export ZOLTAN_LIBRARY=/path/to/Zoltan/lib
 ```
-And *voilà!*
 
-## Installing the overall Python dependencies
-Once Zoltan is installed, you can *finally* install ***more*** dependencies.
-Create and activate a virtual environment, as described above in the serial installation, then install the following packages:
- | Package      | Version |
- |--------------|---------|
- | pip          | upgrade |
- | numpy        | 1.23.1  |
- | matplotlib   | -       |
- | jupyter      | -       |
- | Beaker       | -       |
- | pyproject.toml | -     |
- | cython       | 0.29.32 |
- | mako         | 1.2.3   |
- | pytest       | 7.2.0   |
- | carray       | 1.1*    |
- | compyle      | 0.8.1*  |
- | meshio       | 5.3.4   |
- | mpi4py       | 3.1.4*  |
- | scipy        | 1.9.3   |
- | h5py         | 3.7.0   |
+---
 
-`*` : Installation avec `--no-build-isolation`
+## 🐍 Installing Python Dependencies
 
-For `Cray` architectures, a small modification is necessary.
-Create a `config.py` file in `~/.compyle` with the following content (replace to what suits your environment):
-```python
-import os
+Install the following packages **after** setting up Zoltan:
 
-os.environ['CC'] = 'cc'
-os.environ['CXX'] = 'CC'
+| Package       | Version       | Command                                      |
+|---------------|---------------|----------------------------------------------|
+| pip           | upgrade       | `pip install --upgrade pip`                  |
+| numpy         | 1.23.1        | `pip install numpy==1.23.1`                  |
+| matplotlib    | latest        | `pip install matplotlib`                     |
+| jupyter       | latest        | `pip install jupyter`                        |
+| beaker        | latest        | `pip install beaker`                         |
+| cython        | 0.29.32       | `pip install cython==0.29.32`                |
+| mako          | 1.2.3         | `pip install mako==1.2.3`                    |
+| pytest        | 7.2.0         | `pip install pytest==7.2.0`                  |
+| carray        | 1.1           | `pip install carray==1.1 --no-build-isolation` |
+| compyle       | 0.8.1         | `pip install compyle==0.8.1 --no-build-isolation` |
+| meshio        | 5.3.4         | `pip install meshio==5.3.4`                  |
+| mpi4py        | 3.1.4         | `pip install mpi4py==3.1.4 --no-build-isolation` |
+| scipy         | 1.9.3         | `pip install scipy==1.9.3`                   |
+| h5py          | 3.7.0         | `pip install h5py==3.7.0`                    |
 
-USE_ZOLTAN = 1
-ZOLTAN = "/path/to/Zoltan"
+> **🔧 Cray Architectures:** Create a `config.py` file in `~/.compyle` with MPI flags and paths.
 
-MPI_CFLAGS = ['...']
-MPI_LINK = ['...']
+---
+
+## 📥 Installing PyZoltan
+
+#### 1. Download PyZoltan 1.0.1
+```bash
+git clone --branch v1.0.1 https://github.com/pypr/pyzoltan.git
+cd pyzoltan
 ```
 
-### Installing pyZoltan
-To install pyZoltan, we must get the 1.0.1 version. To do so, we must obtain the archive onth [Github page](https://github.com/pypr/pyzoltan/tree/v1.0.1). If the the cluster is not on a Cray architecture, just run the `setup.py`.
+#### 2. Modify `setup.py` (if needed)
+- Replace `compiler = 'gcc'` with `compiler = 'cray'` for Cray architectures.
+- Add `elif compiler == 'cray'` and define `link_args` and `compile_args` as per your `config.py`.
 
-If not, you might have to modify the `setup.py` file with the following informations:
-- Replace compiler = ’gcc’ with compiler = ’cray’;
-- add an `elif compiler == 'cray'` statement and define the `link_args` and `compile_args` variables as defined in the `config.py` file
+#### 3. Install PyZoltan
+```bash
+pip install .
+```
 
-# Installing PySPH (finally)
-Once everything is *hopefully* installed, you can install pysph. The compatible version is [1.0b1](https://github.com/pypr/pysph/tree/1.0b1)
+---
 
-The procedure is quite similar to PyZoltan
+## 🎉 Installing PySPH
+
+#### 1. Clone PySPH 1.0b1
+```bash
+git clone --branch 1.0b1 https://github.com/pypr/pysph.git
+cd pysph
+```
+
+#### 2. Install PySPH
+```bash
+pip install .
+```
+
+---
+
+## 📝 Summary of Commands
+
+Here is a summary of all the commands seen above. Please use what you want to fit your needs! (avoid copy/paste)
+
+```bash
+# Virtual Environment
+python3.8 -m venv env_PySPH
+source env_PySPH/bin/activate
+
+# Core Dependencies
+pip install numpy==1.23.1 cython==0.29.32 mako==1.2.3 pytest==7.2.0
+pip install carray==1.1 --no-build-isolation
+pip install compyle==0.8.1 --no-build-isolation
+
+# MPI + Zoltan (Local)
+sudo apt-get install openmpi-bin libopenmpi-dev libtrilinos-zoltan-dev
+echo "export ZOLTAN_INCLUDE=/usr/include/trilinos" >> ~/.bashrc
+echo "export ZOLTAN_LIBRARY=/usr/lib/x86_64-linux-gnu" >> ~/.bashrc
+echo "export USE_TRILINOS=1" >> ~/.bashrc
+source ~/.bashrc
+
+# MPI + Zoltan (Cluster)
+wget https://github.com/sandialabs/Zoltan/archive/refs/tags/v3.901.tar.gz
+tar xvfz v3.901.tar.gz
+mkdir Zoltan && cd Zoltan
+../Zoltan-3.901/configure --with-cflags=-fPIC --enable-mpi --with-mpi=/path/to/mpi --prefix=/absolute/path/to/Zoltan
+make everything && make install
+export ZOLTAN_INCLUDE=/path/to/Zoltan/include
+export ZOLTAN_LIBRARY=/path/to/Zoltan/lib
+
+# Python Dependencies
+pip install --upgrade pip
+pip install numpy==1.23.1 matplotlib jupyter beaker cython==0.29.32 mako==1.2.3 pytest==7.2.0
+pip install carray==1.1 --no-build-isolation
+pip install compyle==0.8.1 --no-build-isolation
+pip install mpi4py==3.1.4 --no-build-isolation
+pip install meshio==5.3.4 scipy==1.9.3 h5py==3.7.0
+
+# PyZoltan
+git clone --branch v1.0.1 https://github.com/pypr/pyzoltan.git
+cd pyzoltan
+# Modify setup.py if needed
+pip install .
+
+# PySPH
+git clone --branch 1.0b1 https://github.com/pypr/pysph.git
+cd pysph
+pip install .
+```
+
+---
+
+## 🚀 Next Steps
+- Verify the installation by running the PySPH test suite:
+  ```bash
+  pysph test -v
+  ```
+- Explore the [PySPH documentation](https://pysph.readthedocs.io/en/main/index.html) for usage examples.
