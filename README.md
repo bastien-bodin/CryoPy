@@ -139,7 +139,7 @@ Feel free to extend or modify existing modules for your specific needs!
     title={CryoPy: A Python Framework for Cryolava Simulation using SPH},
     author={Bastien Bodin},
     year={2025},
-    url={https://github.com/username/CryoPy}
+    url={https://github.com/bastien-bodin/CryoPy}
 }
 ```
 
