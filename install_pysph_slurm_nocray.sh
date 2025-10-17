@@ -124,7 +124,7 @@ pip install meshio==5.3.4 scipy==1.9.3 h5py==3.7.0 || {
 
 # Install PyZoltan and PySPH
 echo "[7/8] Installing PyZoltan..."
-pip install git+https://github.com/pypr/pyzoltan.git@v1.0.1 --no-build-isolation || {
+pip install pyzoltan==1.0.1 --no-build-isolation || {
     echo "Error: Failed to install PyZoltan."
     exit 1
 }
