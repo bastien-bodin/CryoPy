@@ -101,7 +101,7 @@ pip install --upgrade pip || {
 
 # Install core dependencies
 echo "[6/8] Installing dependencies..."
-pip install numpy==1.23.1 cython==0.29.32 mako==1.2.3 pytest==7.2.0 || {
+pip install numpy==1.23.1 cython==0.29.32 mako==1.2.3 pytest==7.2.0 wheel || {
     echo "Error: Failed to install core dependencies."
     exit 1
 }
@@ -109,8 +109,8 @@ pip install compyle==0.8.1 --no-build-isolation || {
     echo "Error: Failed to install compyle."
     exit 1
 }
-pip install carray==1.1 --no-build-isolation || {
-    echo "Error: Failed to install carray."
+pip install cyarray==1.1 --no-build-isolation || {
+    echo "Error: Failed to install cyarray."
     exit 1
 }
 pip install mpi4py==3.1.4 --no-build-isolation || {
