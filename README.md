@@ -52,6 +52,8 @@ CryoPy/
 │
 ├── requirements_bases.txt    # Core dependencies for the toolkit to work in serial
 |
+
+|
 ├── apps/                     # Simulation scenarios
 │   ├── DB2D.py               # 2D fluid simulation
 │   ├── DB2DFluidized.py      # 2D fluidized material simulation
@@ -98,6 +100,33 @@ To run it, just run:
 You can customize physical and geometric parameters directly in `main_db.py`.
 
 ---
+
+## Analysis & Validation: Dam Break Benchmark
+
+This repository includes a Jupyter Notebook (`db_analysis.ipynb`, in the `/benchmarks/hydrodynamics/` folder) dedicated to the post-processing and validation of the SPH dam break simulations.
+
+### 📊 Methodology
+The analysis focuses on the temporal evolution of the fluid collapse, compared against classical benchmarks:
+* **Experimental:** Koshizuka & Oka (1996)
+* **Numerical (SPH):** Crespo et al. (2007)
+
+The notebook extracts two key physical metrics:
+1. **Front Position ($x_{max}$):** The maximum horizontal extent of the fluid.
+2. **Residual Height ($y_{max}$):** The fluid height measured at the left wall (monitored within a window $x \in [0.48, 0.52]$ to avoid wall adhesion artifacts).
+
+### ⚙️ Physical Scaling
+To ensure rigorous comparison, dimensionless data from the literature are converted back to physical time using:
+$$t = \frac{T}{\sqrt{2g/L}}$$
+where $g = 9.81 \, \text{m/s}^2$ and $L$ is the initial length of the column.
+
+### 📈 Quantitative Validation
+The notebook performs a quantitative assessment using **Root Mean Square Error (RMSE)**. Simulation results are linearly interpolated onto the experimental time-steps to ensure a point-to-point error calculation.
+
+### 🚀 Usage
+1. Ensure the simulation outputs are located in `../outputs/` or specify it directly in the notebook.
+2. Install dependencies: `pip install numpy pandas matplotlib scipy natsort SciencePlots`.
+3. (Optional) Ensure a LaTeX distribution (like TeX Live or MiKTeX) is installed for high-quality figure rendering.
+4. Run all cells in `db_analysis.ipynb`.
 
 ## 🔧 Creating Custom Scenarios
 
