@@ -52,7 +52,12 @@ CryoPy/
 │
 ├── requirements_bases.txt    # Core dependencies for the toolkit to work in serial
 |
-
+├── benchmarks/
+│   ├── heat_transfer/      # Benchmarks for thermal modeling (e.g., cryolava cooling, WIP)
+│   └── hydrodynamics/      # Fluid dynamics validation (Dam Break case)
+│       ├── crespo_2007_*.csv    # SPH numerical reference from Crespo et al. (2007)
+│       ├── koshizuka_oka_*.csv  # Experimental reference from Koshizuka & Oka (1996)
+│       └── db_analysis.ipynb    # Main analysis and comparison notebook
 |
 ├── apps/                     # Simulation scenarios
 │   ├── DB2D.py               # 2D fluid simulation
@@ -103,7 +108,7 @@ You can customize physical and geometric parameters directly in `main_db.py`.
 
 ## Analysis & Validation: Dam Break Benchmark
 
-This repository includes a Jupyter Notebook (`db_analysis.ipynb`, in the `/benchmarks/hydrodynamics/` folder) dedicated to the post-processing and validation of the SPH dam break simulations.
+This repository includes a Jupyter Notebook (`db_analysis.ipynb`, in the `/benchmarks/hydrodynamics/` folder) dedicated to the post-processing and validation of the SPH dam break simulations (results from `main_db.py`).
 
 ### 📊 Methodology
 The analysis focuses on the temporal evolution of the fluid collapse, compared against classical benchmarks:
