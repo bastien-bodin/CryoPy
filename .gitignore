@@ -7,6 +7,9 @@ modules/__pycache__/
 *.png
 !Scheme.png
 *.ipynb
+benchmarks/heat_transfer/MonaghanPhaseChange_output/
+benchmarks/heat_transfer/MonaghanPhaseChange_output/*.hdf5
+!benchmarks/heat_transfer/PhaseChangeSPH.ipynb
 !benchmarks/hydrodynamics/*.ipynb
 *.drawio
 *.pdf
