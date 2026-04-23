@@ -1,0 +1,9 @@
+services:
+  pysph:
+    build: .
+    container_name: pysph_env
+    volumes:
+      - ./framework:/framework
+    working_dir: /framework
+    stdin_open: true
+    tty: true

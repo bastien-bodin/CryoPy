@@ -1,5 +1,7 @@
 # CryoPy: A Python Framework for Cryolava Simulation using SPH
 
+![Eruption Example](./Eruption-Anim.gif)
+
 **CryoPy** is a Python-based numerical simulation toolkit for **fluid dynamics** and **heat transfer**, primarily using the **Smoothed Particle Hydrodynamics (SPH)** method. This library make an intensive use of the [PySPH Library](https://pysph.readthedocs.io/en/main/index.html), licensed under the BSD 3-Clause License (See [PySPH License](https://github.com/pypr/pysph/blob/main/LICENSE.txt) for details). It is designed to model **cryolava scenarios**, including avalanches, fluidized snow, and ice/water mixtures.
 
 ---
@@ -40,46 +42,53 @@ PySPH is a Python-based framework for Smoothed Particle Hydrodynamics (SPH). It 
 CryoPy/
 │
 ├── .gitignore
-├── INSTALLATION.md           # Detailed installation instructions
-├── LICENSE.txt               # License for the toolkit
-├── README.md                 # What you're reading
+├── INSTALLATION.md                            # Detailed installation instructions
+├── LICENSE.txt                                # License for the toolkit
+├── README.md                                  # What you're reading
 │
-├── install_pysph.sh          # Small script for local installation and parallel support (openMPI)
-├── install_pysph_slurm_cray_mpich.sh  # Installation on Cray cluster with MPICH
-├── install_pysph_slurm_nocray.sh      # Installation on Slurm clusters with openMPI
+├── docker-compose.yml                         # Docker Compose configuration
+├── Dockerfile                                 # Docker image definition (Ubuntu 22.04 + PySPH)
 │
-├── main_db.py                # Dam Break example
+├── install_pysph.sh                           # Local installation with OpenMPI support
+├── install_pysph_slurm_cray_mpich.sh          # Installation on Cray clusters (MPICH)
+├── install_pysph_slurm_nocray.sh              # Installation on Slurm clusters (OpenMPI)
 │
-├── requirements_bases.txt    # Core dependencies for the toolkit to work in serial
-|
-├── benchmarks/
-│   ├── heat_transfer/      # Benchmarks for thermal modeling (e.g., cryolava cooling, WIP)
-│   └── hydrodynamics/      # Fluid dynamics validation (Dam Break case)
-│       ├── crespo_2007_*.csv    # SPH numerical reference from Crespo et al. (2007)
-│       ├── koshizuka_oka_*.csv  # Experimental reference from Koshizuka & Oka (1996)
-│       └── db_analysis.ipynb    # Main analysis and comparison notebook
-|
-├── apps/                     # Simulation scenarios
-│   ├── DB2D.py               # 2D fluid simulation
-│   ├── DB2DFluidized.py      # 2D fluidized material simulation
-│   ├── DB2DSnow.py           # 2D snow simulation
-│   ├── FissureInletAvalanche.py  # Avalanche simulation through a fissure
-│   ├── FissureInletMix.py    # Mixture simulation through a fissure
-│   └── FissureInletSnow.py   # Snow simulation through a fissure
+├── requirements_bases.txt                     # Core dependencies (serial mode)
 │
-└── modules/                  # Core physics and geometry modules
-    ├── FluidDynamics.py      # Fluid dynamics equations and models
-    ├── Geometries.py         # Geometry generation (fissures, blocks, reservoirs)
-    ├── HeatTransfer.py       # Heat transfer models
-    ├── Integrators.py        # Time integrators
-    └── TimeStep.py           # Adaptive time step management
+└── framework/                                 # Main working directory (mounted in Docker)
+    │
+    ├── main_db.py                             # Dam Break example
+    │
+    ├── apps/                                  # Simulation scenarios
+    │   ├── DB2D.py                            # 2D fluid simulation
+    │   ├── DB2DFluidized.py                   # 2D fluidized material simulation
+    │   ├── DB2DSnow.py                        # 2D snow simulation
+    │   ├── FissureInletAvalanche.py           # Avalanche simulation through a fissure
+    │   ├── FissureInletMix.py                 # Mixture simulation through a fissure
+    │   └── FissureInletSnow.py                # Snow simulation through a fissure
+    │
+    ├── benchmarks/
+    │   ├── heat_transfer/                     # Thermal modeling benchmarks (WIP)
+    │   └── hydrodynamics/                     # Fluid dynamics validation (Dam Break)
+    │       ├── crespo_2007_*.csv              # SPH numerical reference (Crespo et al., 2007)
+    │       ├── koshizuka_oka_*.csv            # Experimental reference (Koshizuka & Oka, 1996)
+    │       └── db_analysis.ipynb              # Analysis and comparison notebook
+    │
+    ├── modules/                               # Core physics and geometry modules
+    │   ├── FluidDynamics.py                   # Fluid dynamics equations and models
+    │   ├── Geometries.py                      # Geometry generation (fissures, blocks, reservoirs)
+    │   ├── HeatTransfer.py                    # Heat transfer models
+    │   ├── Integrators.py                     # Time integrators
+    │   └── TimeStep.py                        # Adaptive time step management
+    │
+    └── outputs/                               # Simulation output files (created for simulations)
 ```
 
 ---
 
 ## 📦 Prerequisites
 
-- **Python 3.8.10**
+- **Python 3.8.10** or **Python 3.10** (Compatibility problems from Python 3.11 and above)
 - **PySPH** (and scientific dependencies: `numpy`, `matplotlib`, etc.)
 
 ### ⚙️ Installation Scripts
@@ -91,11 +100,17 @@ To simplify setup, use one of the provided scripts:
 > ⚠️ **Note**
 > If installing **PySPH** on a cluster, ensure the correct **Python** and **MPI** modules are loaded.
 
+> ⚠️ **Warning**
+> If your distro is too recent, we recommend using the docker image given in this repo
+
 For detailed instructions, see **[INSTALLATION.md](./INSTALLATION.md)**.
 
 ---
 
 ## 🌊 Example Usage: 2D Dam-Break Flow Simulation
+
+![Dam Break Animation](./DB-Anim.gif)
+
 An available example simulates the classical dam-break problem in 2D using the Smoothed Particle Hydrodynamics (SPH) method. A column of fluid is initially held behind a virtual dam. When the simulation starts, the dam is removed, and the fluid collapses under gravity, spreading downstream.
 
 To run it, just run:

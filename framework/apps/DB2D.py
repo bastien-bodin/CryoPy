@@ -93,7 +93,7 @@ class DB2D(Application):
         self.mass = self.rho0 * self.dp**2.0
         self.c0 = 10*(self.Ly*(-self.gy))**0.5
         
-        Npoints = 2000
+        Npoints = 200
         self.output_times = [i*self.tf/Npoints for i in range(0,Npoints+1)]
         
     def create_particles(self):

@@ -11,7 +11,7 @@ t_inlet = 2.0            # Max time were the inlet adds particles. If None, then
 tf = t_inlet               # Final physical time of the simulation
 # sources: Engineering toolbox
 
-path2dir = '../outputs/' # You can also set as absolute path
+path2dir = 'outputs/' # You can also set as absolute path
 prefix_output = f'Water_tf_{int(tf/60)}'
 saving_directory = f'{path2dir}{prefix_output}_lx_{int(lx)}_ly_{int(ly)}_rho{rho0}_output/'
 

@@ -14,3 +14,5 @@ benchmarks/heat_transfer/MonaghanPhaseChange_output/*.hdf5
 *.drawio
 *.pdf
 *.pyc
+*.log
+outputs/
