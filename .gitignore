@@ -2,8 +2,8 @@ Logs/
 apps/__pycache__/
 modules/__pycache__/
 *.csv
-!benchmarks/heat_transfer/*.csv
-!benchmarks/hydrodynamics/*.csv
+!framework/benchmarks/heat_transfer/*.csv
+!framework/benchmarks/hydrodynamics/*.csv
 *.png
 !Scheme.png
 *.ipynb
