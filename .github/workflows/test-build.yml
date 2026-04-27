@@ -7,9 +7,18 @@ on:
   workflow_dispatch:
 
 jobs:
+
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
-      - name: Check that repo is accessible
-        run: ls -la
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Vérifier le login
+        run: echo "Login ghcr.io OK"
