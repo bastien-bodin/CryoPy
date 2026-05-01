@@ -1,7 +1,28 @@
 import numpy as np
 
 def Cube3D(center_x: float, center_y: float, center_z: float, length: float, spacing:float):
-    
+    """
+    Generate a regular 3D Cartesian grid of points forming a cube.
+
+    This function creates a volumetric mesh using np.mgrid. A small tolerance (epsil)
+    is added to the upper bounds to ensure the inclusive boundary points are captured
+    according to the specified spacing.
+
+    Parameters
+    ----------
+    center_x, center_y, center_z : float
+        The Cartesian coordinates of the cube's center.
+    length : float
+        The side length of the cube.
+    spacing : float
+        The grid spacing (distance between adjacent particles).
+
+    Returns
+    -------
+    tuple of numpy.ndarray
+        A tuple (cube_x, cube_y, cube_z) containing 3D arrays of the 
+        coordinates for the grid points.
+    """
     length_half = 0.5 * length
     epsil = 0.1 * spacing
 
@@ -18,6 +39,38 @@ def SphereThermo(
         center_x: float, center_y: float, center_z: float,
         spacing:float, radius:float
     ):
+    """
+    Initialize a spherical geometry for 3D SPH thermal simulations.
+
+    Generates two distinct sets of particles:
+    1. Internal volume particles: Created by masking a Cartesian cube to 
+       keep points where r < radius.
+    2. Boundary particles: Regularly spaced on the sphere's surface using 
+       spherical coordinates to ensure stable boundary conditions.
+
+    Parameters
+    ----------
+    center_x, center_y, center_z : float
+        The coordinates of the sphere's center.
+    spacing : float
+        The target inter-particle spacing. Used for the internal grid and 
+        as the angular step for surface particles.
+    radius : float
+        The radius of the sphere.
+
+    Returns
+    -------
+    sphere_x_inside, sphere_y_inside, sphere_z_inside : numpy.ndarray
+        1D arrays of coordinates for particles located inside the volume (r < R).
+    bound_x, bound_y, bound_z : numpy.ndarray
+        Arrays of coordinates for boundary particles located on the surface (r = R).
+
+    Notes
+    -----
+    The surface particle distribution follows the approach described in 
+    Cleary (1998) for heat conduction, which is essential for accurate 
+    Laplacian estimation near the boundaries in SPH methods.
+    """
     epsil = spacing*0.1
     length = 2.0 * radius
 
@@ -35,8 +88,8 @@ def SphereThermo(
 
     # Making regularly spaced particles at the boundaries
     # Further info on Cleary (1998), 3.5. Conduction in a disc
-    theta = np.arange(0.0, np.pi+epsil, spacing)
-    phi = np.arange(0.0, np.pi * 2.0, spacing)
+    theta = np.arange(0.0, np.pi+epsil, spacing/radius)
+    phi = np.arange(0.0, np.pi * 2.0, spacing/radius)
 
     theta, phi = np.meshgrid(theta, phi)
 
