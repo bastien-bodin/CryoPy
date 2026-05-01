@@ -16,3 +16,4 @@ framework/benchmarks/heat_transfer/MonaghanPhaseChange_output/*.hdf5
 *.pyc
 *.log
 outputs/
+.venv
