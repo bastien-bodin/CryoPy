@@ -130,6 +130,22 @@ class Conduction(Equation):
         Tij = d_Temp[d_idx] - s_Temp[s_idx]
         d_Cond[d_idx] += Vj*Kij*Tij*Fij/d_cp[d_idx]/d_rho[d_idx]
 
+class Conduction3D(Equation):
+    def initialize(self, d_idx, d_Cond):
+        d_Cond[d_idx] = 0.0
+    
+    def loop(self, d_idx, d_Cond, d_kappa, d_rho, d_cp, d_Temp,
+             s_idx, s_kappa, s_rho, s_Temp, s_m,
+             DWIJ, R2IJ, XIJ, EPS):
+        dot = DWIJ[0]*XIJ[0] + DWIJ[1]*XIJ[1] + DWIJ[2]*XIJ[2]
+        Fij = dot / (R2IJ + EPS)
+
+        Vj = s_m[s_idx]/s_rho[s_idx]
+        Kij = (4*d_kappa[d_idx]*s_kappa[s_idx]/
+               (d_kappa[d_idx]+s_kappa[s_idx]))
+        Tij = d_Temp[d_idx] - s_Temp[s_idx]
+        d_Cond[d_idx] += Vj*Kij*Tij*Fij/d_cp[d_idx]/d_rho[d_idx]
+
 class Radiation(Equation):
     def __init__(self, dest, sources, Tenv=93.0, eps = 1.0):
         self.Tenv = Tenv
