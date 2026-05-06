@@ -99,12 +99,31 @@ def SphereThermo(
 
     return sphere_x_inside, sphere_y_inside, sphere_z_inside, bound_x, bound_y, bound_z
 
+def RectangularCuboid(
+        center_x: float, center_y: float, center_z: float,
+        length_x: float, length_y:float, length_z:float,
+        spacing:float
+    ):
+    length_half_x = 0.5 * length_x
+    length_half_y = 0.5 * length_y
+    length_half_z = 0.5 * length_z
+    epsil = 0.1 * spacing
+
+    cube_x, cube_y, cube_z = np.mgrid[
+            center_x - length_half_x:center_x + length_half_x + epsil:spacing,
+            center_y - length_half_y:center_y + length_half_y + epsil:spacing,
+            center_z - length_half_z:center_z + length_half_z + epsil:spacing,
+        ]
+    
+    return cube_x, cube_y, cube_z
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 
-    x, y, z, x_b, y_b, z_b = SphereThermo(5,4,3,0.1, 1.0)
-    print(x_b)
+    # x, y, z, x_b, y_b, z_b = SphereThermo(5,4,3,0.1, 1.0)
+    # print(x_b)
+    x, y, z = RectangularCuboid(5,4,3,1,0.5,1.5, 0.1)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
@@ -114,6 +133,5 @@ if __name__ == "__main__":
     ax.set_zlim([2,4])
 
     ax.plot3D(x, y, z, 'x')
-    ax.plot3D(x_b, y_b, z_b, 'x')
 
     plt.show()
